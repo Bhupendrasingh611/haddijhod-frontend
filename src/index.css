@@ -1,0 +1,78 @@
+/* Global Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Body */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #ffffff;
+  color: #222;
+  line-height: 1.6;
+}
+
+/* Smooth Scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Navbar */
+.navbar-brand {
+  letter-spacing: 1px;
+}
+
+.nav-link {
+  transition: 0.3s;
+}
+
+.nav-link:hover {
+  color: #198754 !important;
+}
+
+/* Hero Section */
+h1 {
+  line-height: 1.2;
+}
+
+.btn {
+  border-radius: 8px;
+  font-weight: 600;
+}
+
+/* Cards */
+.card {
+  border-radius: 14px;
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+/* Product Image */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Footer */
+footer ul li {
+  margin-bottom: 10px;
+}
+
+footer a:hover {
+  color: #198754 !important;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 2rem;
+  }
+
+  .navbar-brand {
+    font-size: 1.5rem !important;
+  }
+}

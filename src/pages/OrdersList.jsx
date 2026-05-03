@@ -39,7 +39,7 @@ const OrdersList = () => {
   (order.name || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
   (order.phone || "").includes(searchTerm);
 
-  
+
     const matchesStatus =
       statusFilter === "All" || (order.status || "Pending") === statusFilter;
 
@@ -131,7 +131,19 @@ const OrdersList = () => {
 
   return (
     <div className="container py-5">
-      <h2 className="mb-4">📦 Admin Dashboard - Orders</h2>
+      <div className="d-flex justify-content-between align-items-center mb-4">
+  <h2 className="mb-0">📦 Admin Dashboard - Orders</h2>
+
+  <button
+    className="btn btn-outline-danger"
+    onClick={() => {
+      localStorage.removeItem("isAdminLoggedIn");
+      window.location.href = "/admin-login";
+    }}
+  >
+    Logout
+  </button>
+</div>
 
       {/* Dashboard Cards */}
       <div className="row mb-4">

@@ -11,6 +11,9 @@ import Order from "./pages/Order";
 import Contact from "./pages/Contact";
 import OrdersList from "./pages/OrdersList";
 
+import AdminLogin from "./pages/AdminLogin";
+import ProtectedRoute from "./components/ProtectedRoute";
+
 function App() {
   return (
     <BrowserRouter>
@@ -22,7 +25,8 @@ function App() {
         <Route path="/product" element={<Product />} />
         <Route path="/order" element={<Order />} />
         <Route path="/contact" element={<Contact />} />
-        <Route path="/orders" element={<OrdersList />} />
+        <Route path="/orders" element={<ProtectedRoute><OrdersList /></ProtectedRoute>}/>
+        <Route path="/admin-login" element={<AdminLogin />} />
 
       </Routes>
 

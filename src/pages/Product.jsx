@@ -55,12 +55,12 @@ const Product = () => {
             </p>
 
             <div className="d-flex flex-wrap gap-3 mt-4">
-              <a
-                href="#order"
-                className="btn btn-success btn-lg"
-              >
-                Order Now - ₹{price}
-              </a>
+            <button
+  onClick={() => (window.location.href = "/order")}
+  className="btn btn-success btn-lg"
+>
+  Order Now - ₹{price}
+</button>
 
               <a
                 href={`https://wa.me/${whatsappNumber}`}
@@ -108,22 +108,24 @@ const Product = () => {
       </section>
 
       {/* ABOUT US */}
-      <section className="container py-5">
+      {/* <section className="container py-5">
         <h2>About Us / हमारे बारे में</h2>
         <p>
-          We are <strong>Kuldeep Singh and Bhupendra Singh</strong>, a farmer
-          family from <strong>Gangda, Harda / Agar Malwa, Madhya Pradesh</strong>.
-        </p>
-        <p>
-          पिछले 12–15 सालों से हम लोगों को यह पारंपरिक जड़ी-बूटी आधारित दवाई
-          सीधे देते आ रहे हैं। पहले हम इसे सेवा भाव से लोगों को देते थे, लेकिन
-          कई लोगों को गांव तक आने में परेशानी होती थी।
-        </p>
-        <p>
-          इसलिए हमने यह वेबसाइट शुरू की है ताकि जरूरतमंद लोग पूरे भारत में इसे
-          आसानी से अपने घर मंगवा सकें।
-        </p>
-      </section>
+  I am <strong>Kuldeep Singh Rajput</strong>, a farmer from 
+  <strong> Gangda, Harda / Agar Malwa, Madhya Pradesh</strong>.
+</p>
+
+<p>
+  पिछले 12–15 सालों से मैं लोगों को यह पारंपरिक जड़ी-बूटी आधारित दवाई
+  सीधे अपने गांव से देता आ रहा हूँ। पहले मैं इसे सेवा भाव से लोगों को देता था,
+  लेकिन कई लोगों को गांव तक आने में परेशानी होती थी।
+</p>
+
+<p>
+  इसलिए मैंने यह वेबसाइट शुरू की है ताकि जरूरतमंद लोग पूरे भारत में इसे
+  आसानी से अपने घर मंगवा सकें।
+</p>
+      </section> */}
 
       {/* ABOUT PRODUCT */}
       <section className="bg-light py-5">

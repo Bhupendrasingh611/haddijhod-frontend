@@ -17,6 +17,10 @@ const ContactSection = () => {
           {t("contactText")}
         </p>
 
+        <p className="fw-bold">
+  📦 All India Delivery • ⚡ Fast Response • 📞 Direct Contact
+</p>
+
         <div className="d-flex justify-content-center gap-3 flex-wrap">
 
           <a

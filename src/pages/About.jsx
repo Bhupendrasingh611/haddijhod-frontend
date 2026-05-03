@@ -8,9 +8,9 @@ const About = () => {
     <div className="container py-5">
       <h1>{t("aboutPageTitle")}</h1>
 
-      <p className="mt-3">
-        {t("aboutPageText")}
-      </p>
+      {t("aboutPageText").split("\n\n").map((para, index) => (
+  <p key={index}>{para}</p>
+))}
     </div>
   );
 };

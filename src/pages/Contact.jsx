@@ -19,6 +19,9 @@ const Contact = () => {
         <p className="mb-2">
           <strong>{t("phoneLabel")}:</strong> 8120282859
         </p>
+        <p className="mt-3">
+         <strong>Alternate:</strong> 9399968513
+        </p>
 
         <p className="mb-0">
           <strong>{t("whatsappLabel")}:</strong> Available for orders

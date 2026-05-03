@@ -22,6 +22,9 @@ const HeroSection = () => {
             <h2 className="text-success fw-bold mb-4">
               {t("price")}
             </h2>
+            <p className="text-muted fw-bold">
+            3-Day Herbal Course • Free Delivery • No COD
+            </p>
 
             <div className="d-flex gap-3 flex-wrap">
               <a href="/order" className="btn btn-success btn-lg px-4">
@@ -34,7 +37,7 @@ const HeroSection = () => {
                 rel="noopener noreferrer"
                 className="btn btn-outline-success btn-lg px-4"
               >
-                {t("whatsapp")}
+                Order on WhatsApp
               </a>
             </div>
           </div>
@@ -43,7 +46,7 @@ const HeroSection = () => {
           <div className="col-lg-6 text-center mt-5 mt-lg-0">
             <img
               src="https://via.placeholder.com/500x400"
-              alt="HaddiJhod Powder"
+            alt="Haddi Jhod Herbal Davai"
               className="img-fluid rounded shadow"
             />
           </div>

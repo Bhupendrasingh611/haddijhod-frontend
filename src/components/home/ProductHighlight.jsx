@@ -1,5 +1,6 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 
 const ProductHighlight = () => {
   const { t } = useTranslation();
@@ -13,7 +14,7 @@ const ProductHighlight = () => {
           <div className="col-lg-6 text-center mb-4 mb-lg-0">
             <img
               src="https://via.placeholder.com/450x350"
-              alt="HaddiJhod Powder"
+             alt="Haddi Jhod Herbal Davai"
               className="img-fluid rounded shadow"
             />
           </div>
@@ -39,12 +40,26 @@ const ProductHighlight = () => {
               {t("price")}
             </h3>
 
-            <a
-              href="/order"
-              className="btn btn-success btn-lg px-4"
-            >
-              {t("buyNow")}
-            </a>
+            <p className="text-muted">
+  3-Day Course • Free Delivery • All India Delivery
+</p>
+
+           <div className="d-flex gap-3 flex-wrap">
+
+  <Link to="/order" className="btn btn-success btn-lg px-4">
+    {t("buyNow")}
+  </Link>
+
+  <a
+    href="https://wa.me/918120282859"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="btn btn-outline-success btn-lg px-4"
+  >
+    WhatsApp
+  </a>
+
+</div>
           </div>
 
         </div>

@@ -13,11 +13,13 @@ import OrdersList from "./pages/OrdersList";
 
 import AdminLogin from "./pages/AdminLogin";
 import ProtectedRoute from "./components/ProtectedRoute";
+import StickyContactButtons from "./components/StickyContactButtons";
 
 function App() {
   return (
     <BrowserRouter>
       <Navbar />
+
 
       <Routes>
         <Route path="/" element={<Home />} />
@@ -30,6 +32,7 @@ function App() {
 
       </Routes>
 
+<StickyContactButtons />
       <Footer />
     </BrowserRouter>
   );

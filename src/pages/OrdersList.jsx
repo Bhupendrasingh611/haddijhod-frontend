@@ -8,6 +8,10 @@ const OrdersList = () => {
   const [editOrder, setEditOrder] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  const [statusFilter, setStatusFilter] = useState("All");
+  const [fromDate, setFromDate] = useState("");
+  const [toDate, setToDate] = useState("");
+
 
   const fetchOrders = async () => {
     try {
@@ -28,14 +32,28 @@ const OrdersList = () => {
   }, []);
 
   useEffect(() => {
-    const filtered = orders.filter(
-      (order) =>
-        order.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        order.phone.includes(searchTerm)
-    );
+  const filtered = orders.filter((order) => {
+    const orderDate = new Date(order.createdAt);
 
-    setFilteredOrders(filtered);
-  }, [searchTerm, orders]);
+    const matchesSearch =
+  (order.name || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
+  (order.phone || "").includes(searchTerm);
+
+  
+    const matchesStatus =
+      statusFilter === "All" || (order.status || "Pending") === statusFilter;
+
+    const matchesFromDate =
+      !fromDate || orderDate >= new Date(fromDate);
+
+    const matchesToDate =
+      !toDate || orderDate <= new Date(toDate + "T23:59:59");
+
+    return matchesSearch && matchesStatus && matchesFromDate && matchesToDate;
+  });
+
+  setFilteredOrders(filtered);
+}, [searchTerm, statusFilter, fromDate, toDate, orders]);
 
   const handleEdit = (order) => {
     setEditOrder(order);
@@ -68,66 +86,123 @@ const OrdersList = () => {
     }
   };
 
+  const exportToCSV = () => {
+  if (filteredOrders.length === 0) {
+    alert("No data to export");
+    return;
+  }
+
+  const headers = [
+    "ID",
+    "Name",
+    "Phone",
+    "Address",
+    "Quantity",
+    "Status",
+    "Created At",
+  ];
+
+  const rows = filteredOrders.map((order) => [
+    order.id,
+    order.name,
+    order.phone,
+    order.address,
+    order.quantity,
+    order.status || "Pending",
+    new Date(order.createdAt).toLocaleString(),
+  ]);
+
+  const csvContent =
+    "data:text/csv;charset=utf-8," +
+    [headers, ...rows]
+      .map((row) => row.map((item) => `"${item}"`).join(","))
+      .join("\n");
+
+  const encodedUri = encodeURI(csvContent);
+  const link = document.createElement("a");
+
+  link.setAttribute("href", encodedUri);
+  link.setAttribute("download", "orders_report.csv");
+
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+};
+
   return (
     <div className="container py-5">
-      <div className="d-flex justify-content-between align-items-center mb-4">
-        <h2>📦 Admin Dashboard - Orders</h2>
+      <h2 className="mb-4">📦 Admin Dashboard - Orders</h2>
 
-        <div className="row mb-4">
+      {/* Dashboard Cards */}
+      <div className="row mb-4">
+        <div className="col-md-3 mb-3">
+          <div className="card shadow-sm border-0 bg-dark text-white">
+            <div className="card-body text-center">
+              <h6>Total Orders</h6>
+              <h2>{orders.length}</h2>
+            </div>
+          </div>
+        </div>
 
-  <div className="col-md-3 mb-3">
-    <div className="card shadow-sm border-0 bg-dark text-white">
-      <div className="card-body text-center">
-        <h6>Total Orders</h6>
-        <h2>{orders.length}</h2>
-      </div>
-    </div>
-  </div>
+        <div className="col-md-3 mb-3">
+          <div className="card shadow-sm border-0 bg-warning text-dark">
+            <div className="card-body text-center">
+              <h6>Pending</h6>
+              <h2>
+                {
+                  orders.filter((o) => (o.status || "Pending") === "Pending")
+                    .length
+                }
+              </h2>
+            </div>
+          </div>
+        </div>
 
-  <div className="col-md-3 mb-3">
-    <div className="card shadow-sm border-0 bg-warning text-dark">
-      <div className="card-body text-center">
-        <h6>Pending</h6>
-        <h2>
-          {orders.filter((o) => (o.status || "Pending") === "Pending").length}
-        </h2>
-      </div>
-    </div>
-  </div>
+        <div className="col-md-3 mb-3">
+          <div className="card shadow-sm border-0 bg-success text-white">
+            <div className="card-body text-center">
+              <h6>Delivered</h6>
+              <h2>{orders.filter((o) => o.status === "Delivered").length}</h2>
+            </div>
+          </div>
+        </div>
 
-  <div className="col-md-3 mb-3">
-    <div className="card shadow-sm border-0 bg-success text-white">
-      <div className="card-body text-center">
-        <h6>Delivered</h6>
-        <h2>
-          {orders.filter((o) => o.status === "Delivered").length}
-        </h2>
-      </div>
-    </div>
-  </div>
-
-  <div className="col-md-3 mb-3">
-    <div className="card shadow-sm border-0 bg-danger text-white">
-      <div className="card-body text-center">
-        <h6>Cancelled</h6>
-        <h2>
-          {orders.filter((o) => o.status === "Cancelled").length}
-        </h2>
-      </div>
-    </div>
-  </div>
-
-</div>
+        <div className="col-md-3 mb-3">
+          <div className="card shadow-sm border-0 bg-danger text-white">
+            <div className="card-body text-center">
+              <h6>Cancelled</h6>
+              <h2>{orders.filter((o) => o.status === "Cancelled").length}</h2>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <div className="mb-4">
-        <input
-          type="text"
-          className="form-control"
-          placeholder="Search by Name or Phone..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
+      {/* Search + Status Filter */}
+      <div className="row mb-4">
+        <div className="col-md-8 mb-2">
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Search by Name or Phone..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
+
+        <div className="col-md-4 mb-2">
+          <select
+            className="form-control"
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value)}
+          >
+            <option value="All">All Status</option>
+            <option value="Pending">Pending</option>
+            <option value="Confirmed">Confirmed</option>
+            <option value="Processing">Processing</option>
+            <option value="Delivered">Delivered</option>
+            <option value="Cancelled">Cancelled</option>
+          </select>
+        </div>
       </div>
 
       {loading ? (
@@ -186,7 +261,7 @@ const OrdersList = () => {
 
                     <input
                       type="number"
-                      className="form-control"
+                      className="form-control mb-2"
                       value={editOrder.quantity}
                       onChange={(e) =>
                         setEditOrder({
@@ -196,37 +271,30 @@ const OrdersList = () => {
                       }
                     />
 
-                      <select
-                        className="form-control"
-                         value={editOrder.status || "Pending"}
-                         onChange={(e) =>
+                    <select
+                      className="form-control"
+                      value={editOrder.status || "Pending"}
+                      onChange={(e) =>
                         setEditOrder({
-                       ...editOrder,
-                        status: e.target.value,
-                           })
-                          }
-                      >
-                          <option value="Pending">Pending</option>
-                           <option value="Confirmed">Confirmed</option>
-                           <option value="Processing">Processing</option>
-                           <option value="Delivered">Delivered</option>
-                           <option value="Cancelled">Cancelled</option>
-                          </select>
-
+                          ...editOrder,
+                          status: e.target.value,
+                        })
+                      }
+                    >
+                      <option value="Pending">Pending</option>
+                      <option value="Confirmed">Confirmed</option>
+                      <option value="Processing">Processing</option>
+                      <option value="Delivered">Delivered</option>
+                      <option value="Cancelled">Cancelled</option>
+                    </select>
                   </div>
 
                   <div className="modal-footer">
-                    <button
-                      className="btn btn-secondary"
-                      onClick={closeModal}
-                    >
+                    <button className="btn btn-secondary" onClick={closeModal}>
                       Cancel
                     </button>
 
-                    <button
-                      className="btn btn-success"
-                      onClick={handleUpdate}
-                    >
+                    <button className="btn btn-success" onClick={handleUpdate}>
                       Update
                     </button>
                   </div>
@@ -234,6 +302,48 @@ const OrdersList = () => {
               </div>
             </div>
           )}
+
+          <div className="row mb-4">
+  <div className="col-md-4 mb-2">
+    <label className="form-label">From Date</label>
+    <input
+      type="date"
+      className="form-control"
+      value={fromDate}
+      onChange={(e) => setFromDate(e.target.value)}
+    />
+  </div>
+
+  <div className="col-md-4 mb-2">
+    <label className="form-label">To Date</label>
+    <input
+      type="date"
+      className="form-control"
+      value={toDate}
+      onChange={(e) => setToDate(e.target.value)}
+    />
+  </div>
+
+  <div className="col-md-4 mb-2 d-flex align-items-end">
+    <button
+      className="btn btn-secondary w-100"
+      onClick={() => {
+        setSearchTerm("");
+        setStatusFilter("All");
+        setFromDate("");
+        setToDate("");
+      }}
+    >
+      Clear Filters
+    </button>
+  </div>
+</div>
+
+<div className="mb-3 text-end">
+  <button className="btn btn-success" onClick={exportToCSV}>
+    ⬇ Export CSV
+  </button>
+</div>
 
           {/* Orders Table */}
           <div className="table-responsive">
@@ -260,28 +370,29 @@ const OrdersList = () => {
                       <td>{order.phone}</td>
                       <td>{order.address}</td>
                       <td>{order.quantity}</td>
-                     <td>
-                    <span
-                      className={`badge ${
-                     order.status === "Delivered"
-                       ? "bg-success"
-                    : order.status === "Pending"
-                       ? "bg-warning text-dark"
-                         : order.status === "Confirmed"
-                        ? "bg-primary"
-                        : order.status === "Processing"
-                        ? "bg-info text-dark"
-                       : order.status === "Cancelled"
-                       ? "bg-danger"
-                       : "bg-secondary"
-                        }`}
-                        >
-                       {order.status || "Pending"}
-                       </span>
-                      </td>
+
                       <td>
-                        {new Date(order.createdAt).toLocaleString()}
+                        <span
+                          className={`badge ${
+                            order.status === "Delivered"
+                              ? "bg-success"
+                              : (order.status || "Pending") === "Pending"
+                              ? "bg-warning text-dark"
+                              : order.status === "Confirmed"
+                              ? "bg-primary"
+                              : order.status === "Processing"
+                              ? "bg-info text-dark"
+                              : order.status === "Cancelled"
+                              ? "bg-danger"
+                              : "bg-secondary"
+                          }`}
+                        >
+                          {order.status || "Pending"}
+                        </span>
                       </td>
+
+                      <td>{new Date(order.createdAt).toLocaleString()}</td>
+
                       <td>
                         <button
                           className="btn btn-primary btn-sm me-2"
@@ -301,7 +412,7 @@ const OrdersList = () => {
                   ))
                 ) : (
                   <tr>
-                    <td colSpan="7" className="text-center">
+                    <td colSpan="8" className="text-center">
                       No matching orders found
                     </td>
                   </tr>

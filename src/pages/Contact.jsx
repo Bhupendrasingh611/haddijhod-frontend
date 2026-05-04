@@ -63,7 +63,7 @@ const Contact = () => {
                 </a>
 
                 <a
-                  href="https://wa.me/918120282859"
+                  href="https://wa.me/9193999688513"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="btn btn-outline-success"

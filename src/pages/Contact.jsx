@@ -42,10 +42,10 @@ const Contact = () => {
                 <strong>Alternate:</strong> 8120282859
               </p>
 
-              <p>
+              {/* <p>
                 <FaWhatsapp className="me-2 text-success" />
                 <strong>WhatsApp:</strong> 8120282859
-              </p>
+              </p> */}
 
               <p>
                 <FaMapMarkerAlt className="me-2 text-danger" />

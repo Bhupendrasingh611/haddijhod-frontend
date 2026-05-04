@@ -5,7 +5,7 @@ const HeroSection = () => {
   const { t } = useTranslation();
 
   return (
-    <section className="py-5 bg-light">
+    <section className="py-5 bg-light position-relative overflow-hidden">
       <div className="container">
         <div className="row align-items-center">
 
@@ -23,7 +23,7 @@ const HeroSection = () => {
               {t("price")}
             </h2>
             <p className="text-muted fw-bold">
-            3-Day Herbal Course • Free Delivery • No COD
+                 3-Day Herbal Course • Free Delivery • All India Delivery
             </p>
 
             <div className="d-flex gap-3 flex-wrap">
@@ -32,7 +32,7 @@ const HeroSection = () => {
               </a>
 
               <a
-                href="https://wa.me/918120282859"
+                href="https://wa.me/919399968513"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn btn-outline-success btn-lg px-4"

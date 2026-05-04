@@ -15,6 +15,14 @@ const AboutSection = () => {
               {t("aboutTitle")}
             </h2>
 
+            {/* <span className="badge bg-success mb-3">
+  Founder – Kuldeep Singh Rajput
+</span> */}
+
+<p className="fw-bold text-success mb-3">
+  12–15 Years of Trust • Farmer Family • Direct Herbal Davai
+</p>
+
             <p className="text-muted mb-3">
               {t("aboutText1")}
             </p>

@@ -43,7 +43,7 @@ const Footer = () => {
 
             <p className="mb-2">
               <FaPhoneAlt className="me-2" />
-              8120282859
+              9399968513
             </p>
 
             <p>

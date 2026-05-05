@@ -15,6 +15,8 @@ import AdminLogin from "./pages/AdminLogin";
 import ProtectedRoute from "./components/ProtectedRoute";
 import StickyContactButtons from "./components/StickyContactButtons";
 
+import TrackOrder from "./pages/TrackOrder";
+
 function App() {
   return (
     <BrowserRouter>
@@ -29,6 +31,7 @@ function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/orders" element={<ProtectedRoute><OrdersList /></ProtectedRoute>}/>
         <Route path="/admin-login" element={<AdminLogin />} />
+        <Route path="/track-order" element={<TrackOrder />} />
 
       </Routes>
 

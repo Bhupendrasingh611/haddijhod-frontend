@@ -1,9 +1,9 @@
 import axios from "axios";
 
-// const API_BASE_URL =
-//   "https://haddijhodapi20260502134128-fgbebbftcqaubahc.canadacentral-01.azurewebsites.net/api";
+const API_BASE_URL =
+  "https://haddijhodapi20260502134128-fgbebbftcqaubahc.canadacentral-01.azurewebsites.net/api";
 
-  const API_BASE_URL = "https://localhost:7269/api";
+//   const API_BASE_URL = "https://localhost:7269/api";
 
 const ORDER_API_URL = `${API_BASE_URL}/Orders`;
 const PAYMENT_API_URL = `${API_BASE_URL}/Payment`;

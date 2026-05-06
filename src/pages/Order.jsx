@@ -44,6 +44,31 @@ const Order = () => {
     },
   ];
 
+  const handleChange = (e) => {
+  const { name, value } = e.target;
+
+  if (name === "phone") {
+    setFormData({
+      ...formData,
+      phone: value.replace(/\D/g, "").slice(0, 10),
+    });
+    return;
+  }
+
+  if (name === "pincode") {
+    setFormData({
+      ...formData,
+      pincode: value.replace(/\D/g, "").slice(0, 6),
+    });
+    return;
+  }
+
+  setFormData({
+    ...formData,
+    [name]: name === "quantity" ? Number(value) : value,
+  });
+};
+
   const handlePayment = async (e) => {
   e.preventDefault();
 

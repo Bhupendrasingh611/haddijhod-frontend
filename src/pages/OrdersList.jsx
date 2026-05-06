@@ -171,8 +171,8 @@ const OrdersList = () => {
       "Total Amount",
       "Payment Status",
       "Order Status",
-      "Razorpay Order ID",
-      "Razorpay Payment ID",
+      "Payment Order ID",
+      "Payment Transaction ID",
       "Created At",
     ];
 
@@ -188,8 +188,8 @@ const OrdersList = () => {
       order.totalAmount || "",
       order.paymentStatus || "Pending",
       order.orderStatus || order.status || "Pending",
-      order.razorpayOrderId || "",
-      order.razorpayPaymentId || "",
+      order.cashfreeOrderId || "",
+      order.cashfreePaymentId || "",
       order.createdAt ? new Date(order.createdAt).toLocaleString() : "",
     ]);
 
@@ -701,11 +701,11 @@ const OrdersList = () => {
 
                     <div className="col-md-6">
                       <label className="form-label fw-semibold">
-                        Razorpay Payment ID
+                        Payment Transaction ID
                       </label>
                       <input
                         className="form-control"
-                        value={editOrder.razorpayPaymentId || "-"}
+                        value={editOrder.cashfreePaymentId || "-"}
                         disabled
                       />
                     </div>

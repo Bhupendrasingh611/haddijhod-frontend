@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
-  createRazorpayOrder,
-  verifyRazorpayPayment,
+  createCashfreeOrder,
+  verifyCashfreePayment,
 } from "../api/orderApi";
 import { Link } from "react-router-dom";
 
@@ -119,15 +119,10 @@ ${t("paymentStatusLabel")}: ${t("paidText")}`;
     if (loading) return;
     if (!validateForm()) return;
 
-    if (!window.Razorpay) {
-      alert(t("razorpayLoadError"));
-      return;
-    }
-
     try {
       setLoading(true);
 
-      const createRes = await createRazorpayOrder({
+      const createRes = await createCashfreeOrder({
         name: formData.name,
         phone: formData.phone,
         address: formData.address,
@@ -138,32 +133,31 @@ ${t("paymentStatusLabel")}: ${t("paidText")}`;
 
       const orderData = createRes.data.data;
 
-      const options = {
-        key: orderData.razorpayKey,
-        amount: orderData.totalAmount * 100,
-        currency: "INR",
-        name: "Haddi Jhod",
-        description: t("orderProductName"),
-        order_id: orderData.razorpayOrderId,
+      if (orderData.paymentUrl) {
+        window.open(orderData.paymentUrl, "_blank");
+        setLoading(false);
+        return;
+      }
 
-        prefill: {
-          name: formData.name,
-          contact: formData.phone,
-        },
+      if (!window.Cashfree || typeof window.Cashfree.init !== "function") {
+        alert(t("paymentGatewayLoadError"));
+        setLoading(false);
+        return;
+      }
 
-        theme: {
-          color: "#198754",
-        },
-
-        handler: async function (response) {
+      const cashfreeOptions = {
+        orderToken: orderData.orderToken,
+        orderAmount: orderData.totalAmount,
+        orderCurrency: "INR",
+        customerName: formData.name,
+        customerPhone: formData.phone,
+        orderNote: t("orderProductName"),
+        onSuccess: async function (response) {
           try {
-            const verifyRes = await verifyRazorpayPayment({
-              orderId: orderData.id,
-              razorpayOrderId: response.razorpay_order_id,
-              razorpayPaymentId: response.razorpay_payment_id,
-              razorpaySignature: response.razorpay_signature,
+            const verifyRes = await verifyCashfreePayment({
+              orderDbId: orderData.id,
+              ...response,
             });
-
             setConfirmedOrder(verifyRes.data.data);
           } catch (error) {
             console.log("Verify Error:", error);
@@ -172,16 +166,23 @@ ${t("paymentStatusLabel")}: ${t("paidText")}`;
             setLoading(false);
           }
         },
-
-        modal: {
-          ondismiss: function () {
-            setLoading(false);
-          },
+        onFailure: function (error) {
+          console.log("Payment Error:", error);
+          alert(t("paymentVerifyFailed"));
+          setLoading(false);
+        },
+        onClose: function () {
+          setLoading(false);
         },
       };
 
-      const razorpay = new window.Razorpay(options);
-      razorpay.open();
+      window.Cashfree.init(cashfreeOptions);
+      if (typeof window.Cashfree.open === "function") {
+        window.Cashfree.open();
+      } else {
+        alert(t("paymentGatewayLoadError"));
+        setLoading(false);
+      }
     } catch (error) {
       console.log("Payment Error:", error);
       alert(t("failedOrderMsg"));
@@ -288,7 +289,7 @@ ${t("paymentStatusLabel")}: ${t("paidText")}`;
       <div className="container">
         <div className="text-center mb-5">
           <span className="badge bg-success mb-3">
-            {t("secureRazorpayOrder")}
+            {t("securePaymentOrder")}
           </span>
           <h1 className="fw-bold">{t("orderPageTitle")}</h1>
           <p className="text-muted mb-3">{t("orderPageSubtitle")}</p>
@@ -298,7 +299,7 @@ ${t("paymentStatusLabel")}: ${t("paidText")}`;
               ⭐ 1000+ Happy Customers
             </span>
             <span className="badge bg-white text-success shadow-sm px-3 py-2">
-              🔒 Secure Razorpay Payment
+              🔒 Secure Cashfree Payment
             </span>
             <span className="badge bg-white text-success shadow-sm px-3 py-2">
               🚚 Fast Delivery

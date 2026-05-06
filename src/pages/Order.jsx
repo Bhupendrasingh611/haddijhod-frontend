@@ -44,30 +44,54 @@ const Order = () => {
     },
   ];
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
+  const handlePayment = async (e) => {
+  e.preventDefault();
 
-    if (name === "phone") {
-      setFormData({
-        ...formData,
-        phone: value.replace(/\D/g, "").slice(0, 10),
-      });
-      return;
-    }
+  if (loading) return;
+  if (!validateForm()) return;
 
-    if (name === "pincode") {
-      setFormData({
-        ...formData,
-        pincode: value.replace(/\D/g, "").slice(0, 6),
-      });
-      return;
-    }
+  try {
+    setLoading(true);
 
-    setFormData({
-      ...formData,
-      [name]: name === "quantity" ? Number(value) : value,
+    const createRes = await createCashfreeOrder({
+      name: formData.name,
+      phone: formData.phone,
+      address: formData.address,
+      city: formData.city,
+      pincode: formData.pincode,
+      quantity: Number(formData.quantity),
     });
-  };
+
+    const orderData = createRes.data.data;
+
+    if (!orderData?.paymentSessionId) {
+      alert("Payment session not received. Please try again.");
+      setLoading(false);
+      return;
+    }
+
+    if (!window.Cashfree) {
+      alert(t("paymentGatewayLoadError"));
+      setLoading(false);
+      return;
+    }
+
+    const cashfree = window.Cashfree({
+      mode: "production",
+    });
+
+    await cashfree.checkout({
+      paymentSessionId: orderData.paymentSessionId,
+      redirectTarget: "_self",
+    });
+
+    setLoading(false);
+  } catch (error) {
+    console.log("Payment Error:", error);
+    alert(t("failedOrderMsg"));
+    setLoading(false);
+  }
+};
 
   const validateForm = () => {
     if (!formData.name.trim()) {
@@ -113,82 +137,6 @@ ${t("paymentStatusLabel")}: ${t("paidText")}`;
     );
   };
 
-  const handlePayment = async (e) => {
-    e.preventDefault();
-
-    if (loading) return;
-    if (!validateForm()) return;
-
-    try {
-      setLoading(true);
-
-      const createRes = await createCashfreeOrder({
-        name: formData.name,
-        phone: formData.phone,
-        address: formData.address,
-        city: formData.city,
-        pincode: formData.pincode,
-        quantity: Number(formData.quantity),
-      });
-
-      const orderData = createRes.data.data;
-
-      if (orderData.paymentUrl) {
-        window.open(orderData.paymentUrl, "_blank");
-        setLoading(false);
-        return;
-      }
-
-      if (!window.Cashfree || typeof window.Cashfree.init !== "function") {
-        alert(t("paymentGatewayLoadError"));
-        setLoading(false);
-        return;
-      }
-
-      const cashfreeOptions = {
-        orderToken: orderData.orderToken,
-        orderAmount: orderData.totalAmount,
-        orderCurrency: "INR",
-        customerName: formData.name,
-        customerPhone: formData.phone,
-        orderNote: t("orderProductName"),
-        onSuccess: async function (response) {
-          try {
-            const verifyRes = await verifyCashfreePayment({
-              orderDbId: orderData.id,
-              ...response,
-            });
-            setConfirmedOrder(verifyRes.data.data);
-          } catch (error) {
-            console.log("Verify Error:", error);
-            alert(t("paymentVerifyFailed"));
-          } finally {
-            setLoading(false);
-          }
-        },
-        onFailure: function (error) {
-          console.log("Payment Error:", error);
-          alert(t("paymentVerifyFailed"));
-          setLoading(false);
-        },
-        onClose: function () {
-          setLoading(false);
-        },
-      };
-
-      window.Cashfree.init(cashfreeOptions);
-      if (typeof window.Cashfree.open === "function") {
-        window.Cashfree.open();
-      } else {
-        alert(t("paymentGatewayLoadError"));
-        setLoading(false);
-      }
-    } catch (error) {
-      console.log("Payment Error:", error);
-      alert(t("failedOrderMsg"));
-      setLoading(false);
-    }
-  };
 
   if (confirmedOrder) {
     return (

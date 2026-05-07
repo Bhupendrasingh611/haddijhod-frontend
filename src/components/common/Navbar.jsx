@@ -2,6 +2,7 @@ import React from "react";
 import { FaWhatsapp } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
+import logo from "../../assets/haddilogo1.png";
 
 const Navbar = () => {
   const { t, i18n } = useTranslation();
@@ -17,9 +18,42 @@ const Navbar = () => {
       <div className="container">
 
         {/* Logo */}
-        <a className="navbar-brand fw-bold fs-3 text-success" href="/">
-          HaddiJhod
-        </a>
+        <a className="navbar-brand d-flex align-items-center gap-2" href="/">
+  <img
+    src={logo}
+    alt="Haddi Jhod"
+    style={{
+      height: "55px",
+      width: "55px",
+      objectFit: "contain",
+    }}
+  />
+
+  <div className="d-flex flex-column">
+    <span
+      style={{
+        fontWeight: "800",
+        fontSize: "1.3rem",
+        color: "#146c43",
+        lineHeight: "1",
+      }}
+    >
+      HaddiJhod
+    </span>
+<small
+  style={{
+    color: "#888",
+    fontSize: "0.55rem",
+    fontWeight: "500",
+    lineHeight: "1",
+    marginTop: "2px",
+    letterSpacing: "0.5px",
+  }}
+>
+  Ayurvedic Bone Support
+</small>
+  </div>
+</a>
 
         {/* Mobile Toggle */}
         <button

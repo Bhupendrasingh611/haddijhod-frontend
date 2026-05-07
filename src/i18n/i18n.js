@@ -65,7 +65,7 @@ const resources = {
 
       aboutPageTitle: "About Us",
       aboutPageText:
-        "I am Kuldeep Singh Rajput, a farmer from Gangda, Harda / Agar Malwa, Madhya Pradesh. For the last 12–15 years, I have been helping people by providing a traditional herbal davai directly from my village.\n\nEarlier, I used to give this davai free of cost, but many patients faced difficulty traveling. So now I am delivering it across India to help more people easily.\n\nMy aim is to continue helping people with honesty, quality, and traditional care.",
+        "I am Kuldeep Singh Rajput, a farmer from Gangda, Hadda / Agar Malwa, Madhya Pradesh. For the last 12–15 years, I have been helping people by providing a traditional herbal davai directly from my village.\n\nEarlier, I used to give this davai free of cost, but many patients faced difficulty traveling. So now I am delivering it across India to help more people easily.\n\nMy aim is to continue helping people with honesty, quality, and traditional care.",
 
       productPageTitle: "Our Product",
       productPageText:
@@ -216,7 +216,7 @@ whatsappSupport: "Contact on WhatsApp",
 
       aboutPageTitle: "हमारे बारे में",
       aboutPageText:
-        "मैं कुलदीप सिंह राजपूत हूँ, जो मध्य प्रदेश के गांगडा, हरदा / आगर मालवा से एक किसान हूँ। पिछले 12–15 वर्षों से मैं लोगों को यह पारंपरिक जड़ी-बूटी आधारित दवाई सीधे अपने गांव से देता आ रहा हूँ।\n\nपहले मैं यह दवाई सेवा भाव से देता था, लेकिन कई लोगों को गांव तक आने में परेशानी होती थी। इसलिए अब मैं इसे पूरे भारत में उपलब्ध करा रहा हूँ।\n\nमेरा उद्देश्य है कि मैं ईमानदारी, गुणवत्ता और पारंपरिक सेवा के साथ लोगों की मदद करता रहूं।",
+        "मैं कुलदीप सिंह राजपूत हूँ, जो मध्य प्रदेश के गांगडा, हद्दा / आगर मालवा से एक किसान हूँ। पिछले 12–15 वर्षों से मैं लोगों को यह पारंपरिक जड़ी-बूटी आधारित दवाई सीधे अपने गांव से देता आ रहा हूँ।\n\nपहले मैं यह दवाई सेवा भाव से देता था, लेकिन कई लोगों को गांव तक आने में परेशानी होती थी। इसलिए अब मैं इसे पूरे भारत में उपलब्ध करा रहा हूँ।\n\nमेरा उद्देश्य है कि मैं ईमानदारी, गुणवत्ता और पारंपरिक सेवा के साथ लोगों की मदद करता रहूं।",
 
       productPageTitle: "हमारा प्रोडक्ट",
       productPageText:

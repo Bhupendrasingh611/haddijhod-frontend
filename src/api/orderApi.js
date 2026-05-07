@@ -44,3 +44,7 @@ export const updateOrderStatus = (id, orderStatus) => {
     orderStatus,
   });
 };
+
+export const checkCashfreePaymentStatus = (orderId) => {
+  return axios.get(`${PAYMENT_API_URL}/check-payment-status/${orderId}`);
+};

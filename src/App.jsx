@@ -16,6 +16,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import StickyContactButtons from "./components/StickyContactButtons";
 
 import TrackOrder from "./pages/TrackOrder";
+import PaymentSuccess from "./pages/PaymentSuccess";
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
         <Route path="/orders" element={<ProtectedRoute><OrdersList /></ProtectedRoute>}/>
         <Route path="/admin-login" element={<AdminLogin />} />
         <Route path="/track-order" element={<TrackOrder />} />
+        <Route path="/payment-success" element={<PaymentSuccess />} />
 
       </Routes>
 

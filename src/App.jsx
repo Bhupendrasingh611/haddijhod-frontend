@@ -17,6 +17,8 @@ import StickyContactButtons from "./components/StickyContactButtons";
 
 import TrackOrder from "./pages/TrackOrder";
 import PaymentSuccess from "./pages/PaymentSuccess";
+import GaavSeva from "./pages/GaavSeva";
+import GaavSevaSuccess from "./pages/GaavSeva/GaavSevaSuccess";
 
 function App() {
   return (
@@ -34,6 +36,8 @@ function App() {
         <Route path="/admin-login" element={<AdminLogin />} />
         <Route path="/track-order" element={<TrackOrder />} />
         <Route path="/payment-success" element={<PaymentSuccess />} />
+        <Route path="/gaav-seva" element={<GaavSeva />} />
+        <Route path="/gaav-seva-success" element={<GaavSevaSuccess />} />
 
       </Routes>
 

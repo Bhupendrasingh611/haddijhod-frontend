@@ -97,6 +97,12 @@ const Navbar = () => {
             </li>
 
             <li className="nav-item">
+  <Link className="nav-link" to="/gaav-seva">
+    गांव सेवा
+  </Link>
+</li>
+
+            <li className="nav-item">
               <a className="nav-link fw-semibold" href="/contact">
                 {t("contact")}
               </a>
